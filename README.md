@@ -54,10 +54,10 @@ Some exercise about modelisation and work about Database.
   - name
   - id trip
 
-### Schema without type :
+### Schema with type :
 
 ![alt text](assets/screen-schema-without-type.png)
 
-### Schema with type :
+### Schema without type :
 
 ![alt text](assets/screen-schema.png)
