@@ -58,6 +58,4 @@ Some exercise about modelisation and work about Database.
 
 ![alt text](assets/screen-schema-without-type.png)
 
-### Schema without type :
 
-![alt text](assets/screen-schema.png)
