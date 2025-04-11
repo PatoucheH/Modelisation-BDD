@@ -7,6 +7,8 @@ Some exercise about modelisation and work about Database.
 - Travel Company :
   - company name
   - email
+  - id trip
+  - id client
 - Customers :
   - id client
   - name
