@@ -54,7 +54,7 @@ Some exercise about modelisation and work about Database.
   - name
   - id trip
 
-### Schema with type :
+### Schema 
 
 ![alt text](assets/screen-schema-without-type.png)
 
