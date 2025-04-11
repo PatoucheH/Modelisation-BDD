@@ -5,7 +5,7 @@ Some exercise about modelisation and work about Database.
 ## All the entities and attributes :
 
 - Travel Company :
-  - companyName
+  - company name
   - email
 - Customers :
   - id client
@@ -56,6 +56,6 @@ Some exercise about modelisation and work about Database.
 
 ### Schema 
 
-![alt text](assets/screen-schema-without-type.png)
+![alt text](assets/screen.png)
 
 
