@@ -57,10 +57,9 @@ Some exercise about modelisation and work about Database.
 ### Schema 
 
 
-#### first try : 
+#### first try MCD : 
 
 ![alt text](assets/screen.png)
 
 #### MPD after some change : 
 
-![alt text](assets/schema-mpd.png)

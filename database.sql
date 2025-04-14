@@ -6,6 +6,15 @@ CREATE TABLE TravelCompany
   email       VARCHAR(255) NULL
 );
 
+CREATE TABLE TravelTransport 
+(
+  idTransport     INT     NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  nameOfCompany   VARCHAR(100) NULL,
+  nameOfTransport VARCHAR(50) NULL,
+  type            VARCHAR(50) NOT NULL,
+  numberOfPlace   INT     NOT NULL
+);
+
 CREATE TABLE Trip
 (
   idTrip               INT     NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -13,8 +22,10 @@ CREATE TABLE Trip
   totalPrice           DECIMAL NOT NULL,
   maxPlace             INT     NOT NULL,
   companyName          VARCHAR(100) NOT NULL,
-  CONSTRAINT FK_TravelCompany_TO_Trip FOREIGN KEY (companyName) REFERENCES TravelCompany (companyName)
-);
+  idTransport          INT     NOT NULL,
+  CONSTRAINT FK_TravelCompany_TO_Trip FOREIGN KEY (companyName) REFERENCES TravelCompany (companyName),
+  CONSTRAINT FK_TravelTransport_TO_Trip FOREIGN KEY (idTransport) REFERENCES TravelTransport (idTransport)
+  );
 
 CREATE TABLE Clients
 (
@@ -75,17 +86,6 @@ CREATE TABLE Payment
   CONSTRAINT FK_Reservation_TO_Payment FOREIGN KEY (idReservation) REFERENCES Reservation (idReservation)
 );
 
-CREATE TABLE TravelTransport 
-(
-  idTransport     INT     NOT NULL PRIMARY KEY,
-  nameOfCompany   VARCHAR(100) NULL,
-  nameOfTransport VARCHAR(50) NULL,
-  type            VARCHAR(50) NOT NULL,
-  numberOfPlace   INT     NOT NULL,
-  idTrip          INT     NOT NULL,
-  CONSTRAINT FK_Trip_TO_TravelTransport FOREIGN KEY (idTrip) REFERENCES Trip (idTrip)
-);
-
 -- ADD CRUD OPERATION
 
 -- 3.1 CREATE
@@ -97,68 +97,87 @@ INSERT INTO TravelCompany (companyName, email) VALUES ('Explorez le Monde', 'inf
 INSERT INTO TravelCompany (companyName, email) VALUES ('Séjours Paradisiaques', 'reservation@sejourparisiaques.com');
 INSERT INTO TravelCompany (companyName, email) VALUES ('Globe Trotter', 'service@globetrotter.fr');
 
+-- create 5 travel transport 
+
+INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace)
+VALUES (1, 'Air France', 'Airbus A320', 'Airplane', 180);
+
+INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace)
+VALUES (2, 'SNCF', 'TGV Atlantique', 'Train', 300);
+
+INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace)
+VALUES (3, 'Eurostar', 'Eurostar 3000', 'Train', 600);
+
+INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace)
+VALUES (4, 'Lufthansa', 'Boeing 747', 'Airplane', 250);
+
+INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace)
+VALUES (5, 'SNCF', 'TGV Duplex', 'Train', 500);
+
+INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace)
+VALUES (6, "JetAir", 'Airbus A380', 'Airplane', 600);
+
 -- create some trip 
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace , companyName)
-VALUES (1, 'Paris, France', 1500.00, 4, 'Voyages Aventure');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace , companyName, idTransport)
+VALUES (1, 'Paris, France', 1500.00, 4, 'Voyages Aventure', 5);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (2, 'New York, USA', 2500.00, 2, 'Explorez le Monde');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (2, 'New York, USA', 2500.00, 2, 'Explorez le Monde', 4);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (3, 'Tokyo, Japan', 2000.00, 1, 'Séjours Paradisiaques');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (3, 'Tokyo, Japan', 2000.00, 1, 'Séjours Paradisiaques', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (4, 'Barcelona, Spain', 1800.00, 10, 'Globe Trotter');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (4, 'Barcelona, Spain', 1800.00, 10, 'Globe Trotter', 3);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (5, 'Rome, Italy', 1700.00, 3, 'Voyages Aventure');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (5, 'Rome, Italy', 1700.00, 3, 'Voyages Aventure', 3);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (6, 'London, UK', 1600.00, 1, 'Explorez le Monde');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (6, 'London, UK', 1600.00, 1, 'Explorez le Monde', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (7, 'Sydney, Australia', 3500.00, 2, 'Séjours Paradisiaques');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (7, 'Sydney, Australia', 3500.00, 2, 'Séjours Paradisiaques', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (8, 'Marrakech, Morocco', 1300.00, 25, 'Globe Trotter');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (8, 'Marrakech, Morocco', 1300.00, 25, 'Globe Trotter', 4);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (9, 'Cape Town, South Africa', 2800.00, 1, 'Voyages Aventure');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (9, 'Cape Town, South Africa', 2800.00, 1, 'Voyages Aventure', 4);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (10, 'Dubai, UAE', 3000.00, 100, 'Explorez le Monde');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (10, 'Dubai, UAE', 3000.00, 100, 'Explorez le Monde', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (11, 'Bangkok, Thailand', 2200.00, 8, 'Séjours Paradisiaques');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (11, 'Bangkok, Thailand', 2200.00, 8, 'Séjours Paradisiaques', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (12, 'Lisbon, Portugal', 1400.00, 6, 'Globe Trotter');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (12, 'Lisbon, Portugal', 1400.00, 6, 'Globe Trotter', 5);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (13, 'Reykjavik, Iceland', 2600.00, 3, 'Voyages Aventure');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (13, 'Reykjavik, Iceland', 2600.00, 3, 'Voyages Aventure', 4);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (14, 'San Francisco, USA', 2700.00, 4, 'Explorez le Monde');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (14, 'San Francisco, USA', 2700.00, 4, 'Explorez le Monde', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (15, 'Bali, Indonesia', 3200.00, 2, 'Séjours Paradisiaques');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (15, 'Bali, Indonesia', 3200.00, 2, 'Séjours Paradisiaques', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (16, 'Berlin, Germany', 1500.00, 10, 'Globe Trotter');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (16, 'Berlin, Germany', 1500.00, 10, 'Globe Trotter', 5);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (17, 'Havana, Cuba', 2400.00, 5, 'Voyages Aventure');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (17, 'Havana, Cuba', 2400.00, 5, 'Voyages Aventure', 4);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (18, 'Montreal, Canada', 2300.00, 3, 'Explorez le Monde');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (18, 'Montreal, Canada', 2300.00, 3, 'Explorez le Monde', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (19, 'Maldives', 4000.00, 2, 'Séjours Paradisiaques');
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (19, 'Maldives', 4000.00, 2, 'Séjours Paradisiaques', 1);
 
-INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName)
-VALUES (20, 'Amsterdam, Netherlands', 1600.00, 8, 'Globe Trotter');
-
+INSERT INTO Trip (idTrip, destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES (20, 'Amsterdam, Netherlands', 1600.00, 8, 'Globe Trotter', 2);
 
 -- ADD 20 FAKE CLIENTS IN THE TABLE CLIENTS 
 
@@ -183,7 +202,6 @@ INSERT INTO Clients (idClient, name, firstName, email, phoneNumber, companyName)
 INSERT INTO Clients (idClient, name, firstName, email, phoneNumber, companyName) VALUES (19, 'Sauvage', 'Martine', 'martinesauvage@orange.fr', '+33 3 34 56 78 90', 'Séjours Paradisiaques');
 INSERT INTO Clients (idClient, name, firstName, email, phoneNumber, companyName) VALUES (20, 'Legrand', 'Bernard', 'bernardlegrand@live.fr', '+33 6 12 45 67 89', 'Globe Trotter');
 
-
 -- ADD 5 HOSTS
 
 INSERT INTO Host (idHost, hostName, category, numberOfPlace, idTrip) VALUES (1, 'Le Grand Hôtel', 'Luxury', 150, 1);
@@ -206,7 +224,6 @@ INSERT INTO Host (idHost, hostName, category, numberOfPlace, idTrip) VALUES (17,
 INSERT INTO Host (idHost, hostName, category, numberOfPlace, idTrip) VALUES (18, 'Hôtel Saint-Laurent', 'Luxury', 130, 18);
 INSERT INTO Host (idHost, hostName, category, numberOfPlace, idTrip) VALUES (19, 'Bungalow Océan', 'Mid-Range', 50, 19);
 INSERT INTO Host (idHost, hostName, category, numberOfPlace, idTrip) VALUES (20, 'Hôtel des Canaux', 'Mid-Range', 95, 20);
-
 
 -- ADD 5 guides/contacts to each host 
 
@@ -231,7 +248,6 @@ INSERT INTO GuidesContact (name, languages, idHost) VALUES ('Luca Bianchi', 'Ita
 INSERT INTO GuidesContact (name, languages, idHost) VALUES ('Chloe Martin', 'French, English', 19);
 INSERT INTO GuidesContact (name, languages, idHost) VALUES ('Theo Janssen', 'Dutch, English', 20);
 
-
 -- ADD the 5 adress for each host
 
 INSERT INTO HostAddress (country, city, street, streetNumber, idHost) VALUES ('France', 'Paris', 'Rue de Rivoli', 12, 1);
@@ -254,7 +270,6 @@ INSERT INTO HostAddress (country, city, street, streetNumber, idHost) VALUES ('C
 INSERT INTO HostAddress (country, city, street, streetNumber, idHost) VALUES ('Canada', 'Montreal', 'Rue Sainte-Catherine', 101, 18);
 INSERT INTO HostAddress (country, city, street, streetNumber, idHost) VALUES ('Thailand', 'Bangkok', 'Sukhumvit Road', 77, 19);
 INSERT INTO HostAddress (country, city, street, streetNumber, idHost) VALUES ('Netherlands', 'Amsterdam', 'Prinsengracht', 104, 20);
-
 
 -- Create a reservation for each clients
 
@@ -304,99 +319,6 @@ VALUES (1, 'Credit Card', 1500.00, 1),
        (19, 'Credit Card', 1300.00, 19),
        (20, 'Bank Transfer', 3000.00, 20);
 
--- create 5 travel transport 
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (1, 'Air France', 'Airbus A320', 'Airplane', 180, 1);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (2, 'SNCF', 'TGV Atlantique', 'Train', 300, 2);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (3, 'Eurostar', 'Eurostar 3000', 'Train', 600, 3);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (4, 'Lufthansa', 'Boeing 747', 'Airplane', 250, 4);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (5, 'TGV', 'TGV Duplex', 'Train', 500, 5);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (6, 'Air France', 'Airbus A320', 'Airplane', 180, 3);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (7, 'SNCF', 'TGV Duplex', 'Train', 500, 6);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (8, 'FlixBus', 'Volvo 9700', 'Bus', 60, 2);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (9, 'Ryanair', 'Boeing 737', 'Airplane', 189, 8);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (10, 'Corsica Ferries', 'Mega Express', 'Boat', 1200, 5);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (11, 'Eurolines', 'Mercedes Tourismo', 'Bus', 50, 10);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (12, 'SNCF', 'TGV Atlantique', 'Train', 300, 4);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (13, 'Air France', 'Airbus A320', 'Airplane', 180, 1);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (14, 'Brittany Ferries', 'Pont-Aven', 'Boat', 1500, 7);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (15, 'Lufthansa', 'Boeing 747', 'Airplane', 250, 9);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (16, 'FlixBus', 'Setra S 517 HD', 'Bus', 58, 2);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (17, 'SNCF', 'TER', 'Train', 200, 3);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (18, 'Corsica Ferries', 'Mega Express', 'Boat', 1200, 6);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (19, 'Eurolines', 'Scania Touring', 'Bus', 49, 8);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (20, 'Ryanair', 'Boeing 737', 'Airplane', 189, 5);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (21, 'Brittany Ferries', 'Armorique', 'Boat', 1000, 4);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (22, 'SNCF', 'TGV Océane', 'Train', 350, 9);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (23, 'Ryanair', 'Boeing 737 Max', 'Airplane', 200, 7);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (24, 'FlixBus', 'MAN Lion’s Coach', 'Bus', 55, 1);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (25, 'Corsica Ferries', 'Pascal Lota', 'Boat', 1300, 10);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (26, 'Lufthansa', 'Airbus A380', 'Airplane', 300, 6);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (27, 'Eurolines', 'Irizar i6', 'Bus', 52, 2);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (28, 'Air France', 'Boeing 777', 'Airplane', 270, 3);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (29, 'SNCF', 'TGV Inoui', 'Train', 400, 8);
-
-INSERT INTO TravelTransport (idTransport, nameOfCompany, nameOfTransport, type, numberOfPlace, idTrip)
-VALUES (30, 'FlixBus', 'Setra S 431 DT', 'Bus', 70, 5);
-
-
 
 -- 3.2 READ
 
@@ -441,3 +363,136 @@ WHERE travelcompany.companyName = "Globe Trotter";
 
 -- update the informations about a clients 
 
+UPDATE clients
+SET NAME = "Patou",
+	firstName = "Hugo",
+	email = "hugo@hotmail.com",
+	phoneNumber = "04.98/58.55.44"
+WHERE idClient = 1;
+	
+
+-- update a states of a reservation
+
+UPDATE reservation
+SET stateOfReservation = "Canceled"
+WHERE idReservation = 2;
+	
+-- change the informations about a trip
+
+UPDATE trip
+SET Destination = "Bruxelles, Belgique",
+	totalPrice = 50, 
+	MaxPlace = 10, 
+	CompanyName = "Globe Trotter"
+WHERE idTrip = 1;
+
+
+
+
+-- DELETE 
+
+-- delete a reservation with DELETE ON CASCADE if needed
+
+ALTER TABLE Payment
+DROP FOREIGN KEY FK_Reservation_TO_Payment;
+
+
+ALTER TABLE Payment
+ADD CONSTRAINT FK_Reservation_TO_Payment
+FOREIGN KEY (idReservation) REFERENCES Reservation(idReservation)
+ON DELETE CASCADE;
+
+
+DELETE FROM reservation WHERE idReservation = 3;
+
+-- delete a method of payment no use 
+
+DELETE FROM payment 
+WHERE methodOfPayment = "Cash"
+AND idReservation IS NULL;
+
+-- delete a transport which is no longer available
+
+-- To keep the trip and remplace the mode of transport
+UPDate Trip 
+SET idTransport = 6
+WHERE idTransport = 1;
+
+DELETE FROM TravelTransport
+WHERE idTransport =1;
+
+-- OR if you wante delete the trip associate
+
+ALTER TABLE Trip
+DROP FOREIGN KEY FK_Trip_TO_travelTransport;
+
+ALTER TABLE Trip
+ADD CONSTRAINT FK_Trip_TO_travelTransport FOREIGN KEY (idTransport) REFERENCES Traveltransport (idTransport)
+ON DELETE CASCADE;
+
+DELETE FROM TravelTransport 
+WHERE idTransport = 1;
+
+
+
+-- 4. SOME BONUS QUESTIONS
+
+-- 1  find all company which gets at least 1 aiplane
+
+SELECT nameOfCompany
+FROM traveltransport
+WHERE TYPE = "Airplane"
+GROUP BY nameOfCompany;
+
+
+-- 2 select all the transport with their company name
+
+SELECT nameOfTransport, nameOfCompany
+FROM traveltransport; 	
+
+
+-- 3 display all the transport with more than 200 places
+
+SELECT nameOfTransport, nameOfCompany
+FROM traveltransport
+WHERE numberOfPlace > 200; 	
+
+-- 4 select the host and the main contact
+
+SELECT hostName, category, guidescontact.name
+FROM host
+INNER JOIN guidescontact
+	ON Host.idHost = guidescontact.idHost;
+
+-- 5 select the contact of the hosting in Switzerland
+
+SELECT host.hostName, guidesContact.name, HostAddress.country
+FROM host
+INNER JOIN guidescontact
+    ON host.idHost = guidescontact.idHost
+INNER JOIN HostAddress
+    ON host.idHost = HostAddress.idHost
+WHERE HostAddress.country = 'Suisse';
+
+
+-- 6 create a belgium trip ( 3 days to Plopsaland) with max 50 places
+
+INSERT INTO trip (destination, totalPrice, maxPlace, companyName, idTransport)
+VALUES ( 'Belgium, De Panne', 100, 50, 'Globe Trotter', 2);
+
+-- 7 add some client payments etc...
+
+INSERT INTO clients (NAME, firstName, email, phoneNumber)
+VALUES ('Martin', 'Thomas', 'thomas.martin@email.com', '+33623456789'),
+		('Leroy', 'Sophie', 'sophie.leroy@email.com', '+33634567890'),
+('Dupont', 'Marie', 'marie.dupont@email.com', '+33612345678');
+
+INSERT INTO REservation (StateOfReservation, idClient, idTrip)
+VALUES ('In Progress', 21 ,24),
+			('In Progress', 22 ,24),
+			('In Progress', 23 ,24);
+
+INSERT INTO Payment (methodOfPayment, price, idReservation)
+VALUES ('Cash', 100 ,21),
+			('Credit Card', 100 ,22),
+			('Credit Card', 100 ,23);
