@@ -7,9 +7,7 @@ Some exercise about modelisation and work about Database.
 - Travel Company :
   - company name
   - email
-  - id trip
-  - id client
-- Customers :
+- Clients :
   - id client
   - name
   - first name
@@ -31,13 +29,14 @@ Some exercise about modelisation and work about Database.
   - destination
   - total price
   - max place
-  - registration in progress
+  - Company name
 - Travel transport :
   - id transport
-  - name of country
-  - name
+  - name of company
+  - name of transport
   - type
   - number of place
+  - id trip
 - Host :
   - id host
   - host name
@@ -45,19 +44,23 @@ Some exercise about modelisation and work about Database.
   - number of place
   - id trip
 - Host address :
-  - id address
+  - id host
   - country
   - city
   - street
   - street number
 - Guides :
-  - id guides
   - languages
   - name
-  - id trip
+  - id host
 
 ### Schema 
 
+
+#### first try : 
+
 ![alt text](assets/screen.png)
 
+#### MPD after some change : 
 
+![alt text](assets/schema-mpd.png)
